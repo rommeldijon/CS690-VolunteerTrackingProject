@@ -1,2 +1,2 @@
 # CS690-VolunteerTrackingProject
-CS690-Software Engineering Final Project
+This project is completed by Rommel Dijon
