@@ -94,15 +94,7 @@ class Program
     }
 
 
-    // Helper to allow exiting input
-    static string GetInputWith(string prompt)
-    {
-        Console.Write(prompt);
-        string input = Console.ReadLine();
-        if (input?.ToLower() == "exit")
-            throw new OperationCanceledException("User exited to main menu.");
-        return input;
-    }
+    
     
     static Volunteer Authenticate(string username, string password)
     {
@@ -440,7 +432,7 @@ class Program
         Console.WriteLine("(Type 'exit' to cancel anytime)");
         try
         {
-            string org = GetInputWith("Enter the Organization Name: ");
+            string org = GetInputWithExit("Enter the Organization Name: ");
             string address = GetInputWithExit("Address: ");
 
             string sameLocation = GetInputWithExit("Is the activity location the same as the organization address? (y/n): ").ToLower();
