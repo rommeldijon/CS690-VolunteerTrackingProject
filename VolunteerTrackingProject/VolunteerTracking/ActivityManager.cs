@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using Spectre.Console;
 using VolunteerTracking.Models;
+using VolunteerTracking;
+
 
 public partial class Program
 {
@@ -41,7 +43,7 @@ public partial class Program
             }
 
             // Sort chronologically
-            activities = SortActivitiesChronologically(activities);
+            activities = Utils.SortActivitiesChronologically(activities);
 
             // === Display Table ===
             var table = new Table()
@@ -145,36 +147,36 @@ public partial class Program
             switch (field)
             {
                 case "Date":
-                    string newDate = GetValidatedDate("Enter new date (mm/dd/yyyy): ");
+                    string newDate = Utils.GetValidatedDate("Enter new date (mm/dd/yyyy): ");
                     a.Date = newDate;
                     break;
 
                 case "Start Time":
-                    string newStartTime = GetValidatedTime("Enter new start time (e.g. 9 or 930): ");
-                    string startAmPm = SelectAmOrPm();
+                    string newStartTime = Utils.GetValidatedTime("Enter new start time (e.g. 9 or 930): ");
+                    string startAmPm = Utils.SelectAmOrPm();
                     a.StartTime = $"{newStartTime} {startAmPm}";
                     break;
 
                 case "End Time":
-                    string newEndTime = GetValidatedTime("Enter new end time (e.g. 1 or 130): ");
-                    string endAmPm = SelectAmOrPm();
+                    string newEndTime = Utils.GetValidatedTime("Enter new end time (e.g. 1 or 130): ");
+                    string endAmPm = Utils.SelectAmOrPm();
                     a.EndTime = $"{newEndTime} {endAmPm}";
                     break;
 
                 case "Organization":
-                    a.Organization = GetInputWithExit("Enter new organization: ");
+                    a.Organization = Utils.GetInputWithExit("Enter new organization: ");
                     break;
 
                 case "Location":
-                    a.Location = GetInputWithExit("Enter new location: ");
+                    a.Location = Utils.GetInputWithExit("Enter new location: ");
                     break;
 
                 case "Activity Type":
-                    a.Type = GetInputWithExit("Enter new activity type: ");
+                    a.Type = Utils.GetInputWithExit("Enter new activity type: ");
                     break;
 
                 case "Note":
-                    a.Note = GetInputWithExit("Enter new note (or leave blank): ");
+                    a.Note = Utils.GetInputWithExit("Enter new note (or leave blank): ");
                     break;
             }
 

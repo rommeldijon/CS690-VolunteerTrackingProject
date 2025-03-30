@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using Spectre.Console;
 using VolunteerTracking.Models;
+using VolunteerTracking;
+
 
 public partial class Program
 {
@@ -16,21 +18,21 @@ public partial class Program
         Console.WriteLine("(Type 'exit' to cancel anytime)");
         try
         {
-            string org = GetInputWithExit("Enter the Organization Name: ");
-            string address = GetInputWithExit("Address: ");
+            string org = Utils.GetInputWithExit("Enter the Organization Name: ");
+            string address = Utils.GetInputWithExit("Address: ");
 
-            string sameLocation = GetInputWithExit("Is the activity location the same as the organization address? (y/n): ").ToLower();
+            string sameLocation = Utils.GetInputWithExit("Is the activity location the same as the organization address? (y/n): ").ToLower();
             string location = address;
 
             if (sameLocation != "y")
             {
-                location = GetInputWithExit("Enter Activity Location: ");
+                location = Utils.GetInputWithExit("Enter Activity Location: ");
             }
 
             string date;
             while (true)
             {
-                date = GetInputWithExit("Enter the Date (mm/dd/yyyy): ");
+                date = Utils.GetInputWithExit("Enter the Date (mm/dd/yyyy): ");
                 if (DateTime.TryParseExact(date, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out _))
                     break;
 
@@ -43,8 +45,8 @@ public partial class Program
             string startTime;
             while (true)
             {
-                string timeInput = GetInputWithExit("Start Time (e.g. 9, 930, or 10:00): ");
-                timeInput = NormalizeTime(timeInput);
+                string timeInput = Utils.GetInputWithExit("Start Time (e.g. 9, 930, or 10:00): ");
+                timeInput = Utils.NormalizeTime(timeInput);
 
                 string ampm = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
@@ -63,8 +65,8 @@ public partial class Program
             string endTime;
             while (true)
             {
-                string timeInput = GetInputWithExit("End Time (e.g. 1, 130, or 1:30): ");
-                timeInput = NormalizeTime(timeInput);
+                string timeInput = Utils.GetInputWithExit("End Time (e.g. 1, 130, or 1:30): ");
+                timeInput = Utils.NormalizeTime(timeInput);
 
                 string ampm = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
@@ -80,8 +82,8 @@ public partial class Program
                 Console.WriteLine("⚠ Invalid time format. Please enter a time like 1:00, 2:30, or 1130.");
             }
 
-            string type = GetInputWithExit("Enter the Activity Type: ");
-            string note = GetInputWithExit("Optional: Add a note about this activity: ");
+            string type = Utils.GetInputWithExit("Enter the Activity Type: ");
+            string note = Utils.GetInputWithExit("Optional: Add a note about this activity: ");
 
             var activity = new Activity
             {

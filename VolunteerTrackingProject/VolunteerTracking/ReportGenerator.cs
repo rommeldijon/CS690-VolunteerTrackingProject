@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Spectre.Console;
 using VolunteerTracking.Models;
+using VolunteerTracking;
 
 public partial class Program
 {
@@ -28,7 +29,7 @@ public partial class Program
         {
             try
             {
-                string input = GetInputWithExit("Enter start date (mm/dd/yyyy): ");
+                string input = Utils.GetInputWithExit("Enter start date (mm/dd/yyyy): ");
                 if (DateTime.TryParseExact(input, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out startDate))
                     break;
                 AnsiConsole.MarkupLine("[red]Invalid date. Use format mm/dd/yyyy (e.g., 04/01/2025).[/]");
@@ -43,7 +44,7 @@ public partial class Program
         {
             try
             {
-                string input = GetInputWithExit("Enter end date (mm/dd/yyyy): ");
+                string input = Utils.GetInputWithExit("Enter end date (mm/dd/yyyy): ");
                 if (DateTime.TryParseExact(input, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out endDate))
                     break;
                 AnsiConsole.MarkupLine("[red]Invalid date. Use format mm/dd/yyyy (e.g., 04/01/2025).[/]");
@@ -70,7 +71,7 @@ public partial class Program
             .Where(a => string.IsNullOrEmpty(typeFilter) || a.Type.ToLower().Contains(typeFilter))
             .ToList();
 
-        activities = SortActivitiesChronologically(activities);
+        activities = Utils.SortActivitiesChronologically(activities);
 
         Console.Clear();
         AnsiConsole.MarkupLine("[bold green]=== Impact Report ===[/]");

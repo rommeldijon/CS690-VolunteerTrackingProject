@@ -2,14 +2,12 @@ namespace VolunteerTracking;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Spectre.Console;
 using VolunteerTracking.Models;
 
-
-public partial class Program
+public static class Utils
 {
-    static string GetInputWithExit(string prompt)
+    public static string GetInputWithExit(string prompt)
     {
         Console.Write(prompt);
         string input = Console.ReadLine();
@@ -20,7 +18,7 @@ public partial class Program
         return input;
     }
 
-    static string NormalizeTime(string input)
+    public static string NormalizeTime(string input)
     {
         input = input.Trim();
 
@@ -36,7 +34,7 @@ public partial class Program
         return input; // assume already formatted
     }
 
-    static string GetValidatedDate(string prompt)
+    public static string GetValidatedDate(string prompt)
     {
         while (true)
         {
@@ -48,13 +46,13 @@ public partial class Program
         }
     }
 
-    static string GetValidatedTime(string prompt)
+    public static string GetValidatedTime(string prompt)
     {
         while (true)
         {
             string input = GetInputWithExit(prompt).Replace(":", "").Trim();
 
-            if (input == "exit")
+            if (input.ToLower() == "exit")
                 throw new OperationCanceledException();
 
             if (int.TryParse(input, out int timeNum))
@@ -69,7 +67,7 @@ public partial class Program
         }
     }
 
-    static List<Activity> SortActivitiesChronologically(List<Activity> activities)
+    public static List<Activity> SortActivitiesChronologically(List<Activity> activities)
     {
         return activities
             .OrderBy(a =>
@@ -78,5 +76,47 @@ public partial class Program
                 return dt;
             })
             .ToList();
+    }
+
+    public static string SelectAmOrPm()
+    {
+        string[] options = { "AM", "PM" };
+        int selectedIndex = 0;
+        ConsoleKey key;
+
+        int cursorTop = Console.CursorTop;
+
+        Console.WriteLine("\nUse ← → arrow keys to select AM or PM. Press Enter to confirm:");
+
+        do
+        {
+            Console.SetCursorPosition(0, cursorTop + 1);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, cursorTop + 1);
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+
+                Console.Write($" {options[i]} ");
+                Console.ResetColor();
+                Console.Write("   ");
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.RightArrow && selectedIndex < options.Length - 1)
+                selectedIndex++;
+            else if (key == ConsoleKey.LeftArrow && selectedIndex > 0)
+                selectedIndex--;
+
+        } while (key != ConsoleKey.Enter);
+
+        Console.WriteLine();
+        return options[selectedIndex];
     }
 }

@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using VolunteerTracking.Models;
 using Spectre.Console;
+using VolunteerTracking;
+
 
 public partial class Program
 {
@@ -18,7 +20,7 @@ public partial class Program
         {
             try
             {
-                validatedUsername = GetInputWithExit("Enter desired username: ").ToLower();
+                validatedUsername = Utils.GetInputWithExit("Enter desired username: ").ToLower();
 
                 if (validatedUsername.Length < 6 || !validatedUsername.All(c => char.IsLetterOrDigit(c) || c == ' '))
                 {
@@ -50,7 +52,7 @@ public partial class Program
         {
             try
             {
-                fullName = GetInputWithExit("Enter your first and last name: ");
+                fullName = Utils.GetInputWithExit("Enter your first and last name: ");
                 var parts = fullName.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                 if (parts.Length == 2)
@@ -70,8 +72,8 @@ public partial class Program
         {
             try
             {
-                string pass1 = GetInputWithExit("Set a password (min 6 chars, 1 capital letter, 1 special character): ");
-                string pass2 = GetInputWithExit("Confirm password: ");
+                string pass1 = Utils.GetInputWithExit("Set a password (min 6 chars, 1 capital letter, 1 special character): ");
+                string pass2 = Utils.GetInputWithExit("Confirm password: ");
 
                 if (pass1 != pass2)
                 {
