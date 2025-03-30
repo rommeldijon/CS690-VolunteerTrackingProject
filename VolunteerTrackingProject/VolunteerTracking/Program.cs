@@ -10,7 +10,11 @@
     {
         static string filePath = "volunteers.txt";
 
+
         static void Main(string[] args)
+
+       
+
         {
             while (true)
             {
@@ -61,10 +65,12 @@
                 }
                 else
                 {
+
                     Console.WriteLine("Login failed. Invalid username or password.");
                     Console.Write("Forgot password? (y/n): ");
                     var resetChoice = Console.ReadLine();
                     if (resetChoice?.ToLower() == "y")
+
                     {
                         Console.WriteLine("No worries. Let's set a new password.");
                         ResetPassword();
