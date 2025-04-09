@@ -11,7 +11,7 @@ using VolunteerTracking;
 
 public partial class Program
 {
-    static void Register()
+    public static void Register()
     {
         AnsiConsole.MarkupLine("[gray](Type 'exit', then press enter at anytime to cancel registration and return to main menu.)[/]\n");
 

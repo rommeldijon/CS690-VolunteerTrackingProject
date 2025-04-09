@@ -6,12 +6,10 @@ using System.IO;
 using System.Linq;
 using Spectre.Console;
 using VolunteerTracking.Models;
-using VolunteerTracking;
-
 
 public partial class Program
 {
-    static Volunteer Authenticate(string username, string password)
+    public static Volunteer Authenticate(string username, string password)
     {
         if (!File.Exists(filePath))
             return null;
@@ -27,10 +25,10 @@ public partial class Program
 
         return null;
     }
-    static void ResetPassword()
+
+    public static void ResetPassword(IPromptService prompt)
     {
-        Console.Write("Enter your username: ");
-        string username = Console.ReadLine()?.ToLower();
+        string username = prompt.AskUsername()?.ToLower();
 
         if (!File.Exists(filePath))
         {
@@ -47,15 +45,12 @@ public partial class Program
             if (v.Username.ToLower() == username)
             {
                 Console.WriteLine("User verified. Let's reset your password.");
+                string newPassword;
 
-                string newPassword = "";
                 while (true)
                 {
-                    Console.Write("New password (min 6 chars, 1 capital letter, 1 special character {!@#$%^&*()}): ");
-                    string pass1 = Console.ReadLine();
-
-                    Console.Write("Confirm new password: ");
-                    string pass2 = Console.ReadLine();
+                    string pass1 = prompt.AskNewPassword();
+                    string pass2 = prompt.AskPasswordConfirmation();
 
                     if (pass1 != pass2)
                     {

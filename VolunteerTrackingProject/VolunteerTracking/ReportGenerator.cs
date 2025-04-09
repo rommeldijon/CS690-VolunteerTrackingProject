@@ -32,6 +32,7 @@ public partial class Program
                 string input = Utils.GetInputWithExit("Enter start date (mm/dd/yyyy): ");
                 if (DateTime.TryParseExact(input, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out startDate))
                     break;
+
                 AnsiConsole.MarkupLine("[red]Invalid date. Use format mm/dd/yyyy (e.g., 04/01/2025).[/]");
             }
             catch (OperationCanceledException)
@@ -47,6 +48,7 @@ public partial class Program
                 string input = Utils.GetInputWithExit("Enter end date (mm/dd/yyyy): ");
                 if (DateTime.TryParseExact(input, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out endDate))
                     break;
+
                 AnsiConsole.MarkupLine("[red]Invalid date. Use format mm/dd/yyyy (e.g., 04/01/2025).[/]");
             }
             catch (OperationCanceledException)
@@ -55,8 +57,26 @@ public partial class Program
             }
         }
 
-        string orgFilter = AnsiConsole.Ask<string>("Filter by [blue]organization[/] (leave blank to skip):").Trim().ToLower();
-        string typeFilter = AnsiConsole.Ask<string>("Filter by [blue]activity type[/] (leave blank to skip):").Trim().ToLower();
+        string orgFilter;
+        try
+        {
+            orgFilter = Utils.GetInputWithExit("Filter by organization (leave blank to skip): ").Trim().ToLower();
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        string typeFilter;
+        try
+        {
+            typeFilter = Utils.GetInputWithExit("Filter by activity type (leave blank to skip): ").Trim().ToLower();
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
         bool includeNotes = AnsiConsole.Confirm("Include notes in the report?");
 
         var activities = File.ReadAllLines("activities.txt")
@@ -81,7 +101,6 @@ public partial class Program
             AnsiConsole.MarkupLine($"Filtered by Organization: [italic]{orgFilter}[/]");
         if (!string.IsNullOrWhiteSpace(typeFilter))
             AnsiConsole.MarkupLine($"Filtered by Activity Type: [italic]{typeFilter}[/]");
-
         AnsiConsole.MarkupLine($"Total Matching Activities: [bold yellow]{activities.Count}[/]");
 
         var table = new Table()
@@ -105,8 +124,8 @@ public partial class Program
         }
 
         AnsiConsole.Write(table);
-
         AnsiConsole.MarkupLine("\n[gray](Press Enter to return to the menu)[/]");
         Console.ReadLine();
     }
+
 }

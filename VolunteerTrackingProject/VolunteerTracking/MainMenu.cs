@@ -9,7 +9,7 @@ using VolunteerTracking;
 
 public partial class Program
 {
-   static void ShowLoggedInMenu(Volunteer volunteer)
+   public static void ShowLoggedInMenu(Volunteer volunteer)
 {
     while (true)
     {
