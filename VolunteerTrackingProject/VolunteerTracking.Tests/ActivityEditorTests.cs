@@ -1,96 +1,85 @@
 using Xunit;
-using System;
-using System.IO;
-using VolunteerTracking.Models;
 using VolunteerTracking;
+using VolunteerTracking.Models;
+using System.Collections.Generic;
+using System;
 
 namespace VolunteerTracking.Tests
 {
     public class ActivityEditorTests
     {
+        // ✅ Updated MockPromptService with all required methods
+        private class MockPromptService : IPromptService
+        {
+            private readonly Queue<string> _responses;
+
+            public MockPromptService(IEnumerable<string> responses)
+            {
+                _responses = new Queue<string>(responses);
+            }
+
+            public string PromptForInput(string message)
+            {
+                return _responses.Count > 0 ? _responses.Dequeue() : "";
+            }
+
+            public void WaitForUserAcknowledgement(string message)
+            {
+                // No-op for tests (prevents Console.ReadLine())
+            }
+
+            public string AskUserType() => throw new NotImplementedException();
+            public bool ConfirmRegistration() => throw new NotImplementedException();
+            public string AskUsername() => throw new NotImplementedException();
+            public string AskNewPassword() => throw new NotImplementedException();
+            public string AskPasswordConfirmation() => throw new NotImplementedException();
+        }
+
         [Fact]
-        public void Edit_ShouldUpdateDate_WhenNewDateIsProvided()
+        public void Edit_ShouldUpdateOrganization()
         {
             // Arrange
-            var activity = new Activity
-            {
-                Date = "01/01/2025"
-            };
-
-            // Simulate:
-            // 1. Select "Date"
-            // 2. Input new date "04/15/2025"
-            // 3. Press Enter to continue
-            var input = new StringReader("Date\n04/15/2025\n\n");
-            Console.SetIn(input);
-
-            // Redirect console output (optional: to suppress screen clutter)
-            var originalOut = Console.Out;
-            Console.SetOut(new StringWriter());
+            var activity = new Activity { Organization = "Old Org" };
+            var mockPrompt = new MockPromptService(new[] { "Organization", "New Org" });
 
             // Act
-            ActivityEditor.Edit(ref activity);
+            ActivityEditor.Edit(ref activity, mockPrompt);
 
             // Assert
-            Assert.Equal("04/15/2025", activity.Date);
+            Assert.Equal("New Org", activity.Organization);
+        }
 
-            // Reset output
-            Console.SetOut(originalOut);
+        [Fact]
+        public void Edit_ShouldUpdateNote()
+        {
+            var activity = new Activity { Note = "Old note" };
+            var mockPrompt = new MockPromptService(new[] { "Note", "Updated note" });
+
+            ActivityEditor.Edit(ref activity, mockPrompt);
+
+            Assert.Equal("Updated note", activity.Note);
         }
 
         [Fact]
         public void Edit_ShouldNotChangeAnything_WhenCanceled()
         {
-            // Arrange
-            var activity = new Activity
-            {
-                Organization = "Red Cross"
-            };
+            var activity = new Activity { Location = "123 Main St" };
+            var mockPrompt = new MockPromptService(new[] { "Cancel" });
 
-            // Simulate selecting "Cancel Edit"
-            var input = new StringReader("Cancel Edit\n\n");
-            Console.SetIn(input);
+            ActivityEditor.Edit(ref activity, mockPrompt);
 
-            var originalOut = Console.Out;
-            Console.SetOut(new StringWriter());
-
-            // Act
-            ActivityEditor.Edit(ref activity);
-
-            // Assert
-            Assert.Equal("Red Cross", activity.Organization);
-
-            // Reset output
-            Console.SetOut(originalOut);
+            Assert.Equal("123 Main St", activity.Location);
         }
 
         [Fact]
-        public void Edit_ShouldUpdateNote_WhenNewNoteIsProvided()
+        public void Edit_ShouldHandleInvalidFieldGracefully()
         {
-            // Arrange
-            var activity = new Activity
-            {
-                Note = "Old Note"
-            };
+            var activity = new Activity { Type = "Cleanup" };
+            var mockPrompt = new MockPromptService(new[] { "InvalidField" });
 
-            // Simulate:
-            // 1. Select "Note"
-            // 2. Enter "Updated Note"
-            // 3. Press Enter
-            var input = new StringReader("Note\nUpdated Note\n\n");
-            Console.SetIn(input);
+            ActivityEditor.Edit(ref activity, mockPrompt);
 
-            var originalOut = Console.Out;
-            Console.SetOut(new StringWriter());
-
-            // Act
-            ActivityEditor.Edit(ref activity);
-
-            // Assert
-            Assert.Equal("Updated Note", activity.Note);
-
-            // Reset output
-            Console.SetOut(originalOut);
+            Assert.Equal("Cleanup", activity.Type); // no change
         }
     }
 }

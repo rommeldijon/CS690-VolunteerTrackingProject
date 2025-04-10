@@ -11,7 +11,10 @@ namespace VolunteerTracking.Tests
         {
             private readonly Queue<string> _stringInputs;
             private readonly Queue<bool> _boolInputs;
-
+            public void WaitForUserAcknowledgement(string message)
+            {
+                // Skip pause in tests
+            }
             public MockPromptService(IEnumerable<string> stringInputs, IEnumerable<bool> boolInputs)
             {
                 _stringInputs = new Queue<string>(stringInputs);

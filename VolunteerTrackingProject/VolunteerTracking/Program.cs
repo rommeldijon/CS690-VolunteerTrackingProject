@@ -14,9 +14,12 @@
 
             while (true)
             {
-                HandleMainMenu(promptService);  // returns if "exit" or user cancels login
-                // Optional: wait briefly or clear screen
-                Thread.Sleep(500);
+                bool shouldExit = HandleMainMenu(promptService);
+                if (shouldExit)
+                    Environment.Exit(0);
+
+                Thread.Sleep(500); // Optional: wait briefly before looping again
+
             }
         }
         private static string PromptForTimeWithAmPm(string label)

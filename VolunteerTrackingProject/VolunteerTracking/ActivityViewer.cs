@@ -159,7 +159,7 @@ public partial class Program
                 break;
 
             case "Edit this Activity":
-                ActivityEditor.Edit(ref selectedActivity);
+                ActivityEditor.Edit(ref selectedActivity, new SpectrePromptService());
                 allLines[fileIndex] = selectedActivity.ToString();
                 File.WriteAllLines("activities.txt", allLines);
                 AnsiConsole.MarkupLine("[green]Activity updated.[/]");

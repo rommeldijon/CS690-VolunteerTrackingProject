@@ -70,6 +70,10 @@ namespace VolunteerTracking.Tests
             public string PromptForInput(string message) => "";
             public string AskUserType() => "";
             public bool ConfirmRegistration() => false;
+            public void WaitForUserAcknowledgement(string message)
+            {
+                // No-op
+            }
         }
     }
 }

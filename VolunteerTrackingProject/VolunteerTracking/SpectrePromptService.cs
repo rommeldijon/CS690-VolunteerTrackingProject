@@ -50,4 +50,11 @@ public class SpectrePromptService : IPromptService
         Console.Write(message);
         return Console.ReadLine();
     }
+
+    public void WaitForUserAcknowledgement(string message)
+{
+    AnsiConsole.MarkupLine(message);
+    Console.ReadLine();
+}
+
 }

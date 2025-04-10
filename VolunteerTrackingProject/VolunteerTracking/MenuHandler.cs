@@ -5,40 +5,40 @@ using VolunteerTracking.Models;
 
 public partial class Program
 {
-    public static void HandleMainMenu(IPromptService promptService)
-{
-    while (true)
+    public static bool HandleMainMenu(IPromptService promptService)
     {
-        string userType = promptService.AskUserType();
-
-        if (userType == "exit")
+        while (true)
         {
-            AnsiConsole.MarkupLine("[gray]Goodbye! Exiting the system...[/]");
-            Environment.Exit(0);
-        }
+            string userType = promptService.AskUserType();
 
-        if (userType == "new")
-        {
-            if (promptService.ConfirmRegistration())
+            if (userType == "exit")
             {
-                try
+                AnsiConsole.MarkupLine("[gray]Goodbye! Exiting the system...[/]");
+                return true; // ✅ user wants to exit
+            }
+
+            if (userType == "new")
+            {
+                if (promptService.ConfirmRegistration())
                 {
-                    Register();
+                    try
+                    {
+                        Register();
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        AnsiConsole.MarkupLine("[gray]Registration canceled. Returning to the main menu...[/]");
+                        Thread.Sleep(1000);
+                    }
+                    continue;
                 }
-                catch (OperationCanceledException)
+                else
                 {
-                    AnsiConsole.MarkupLine("[gray]Registration canceled. Returning to the main menu...[/]");
+                    AnsiConsole.MarkupLine("[gray]Okay. Returning to the main menu...[/]");
                     Thread.Sleep(1000);
+                    continue;
                 }
-                continue;
             }
-            else
-            {
-                AnsiConsole.MarkupLine("[gray]Okay. Returning to the main menu...[/]");
-                Thread.Sleep(1000);
-                continue;
-            }
-        }
 
             // === Returning User Login Flow ===
             Volunteer volunteer = null;
@@ -46,21 +46,20 @@ public partial class Program
 
             while (true)
             {
-                Console.Write("Enter your username (or type 'exit' to cancel): ");
-                usernameInput = Console.ReadLine()?.Trim().ToLower();
+                usernameInput = promptService.PromptForInput("Enter your username (or type 'exit' to cancel):").Trim().ToLower();
 
                 if (usernameInput == "exit")
                 {
                     AnsiConsole.MarkupLine("[gray]Returning to the welcome screen...[/]");
                     Thread.Sleep(1000);
-                    return;
+                    return false;
                 }
 
                 if (!File.Exists(filePath))
                 {
-                    AnsiConsole.MarkupLine("[red]⚠ No users found. Try registering first.[/]");
+                    AnsiConsole.MarkupLine("[red]No users found. Try registering first.[/]");
                     Thread.Sleep(1000);
-                    return;
+                    return false;
                 }
 
                 var allVolunteers = File.ReadAllLines(filePath)
@@ -76,33 +75,31 @@ public partial class Program
                 }
 
                 // At this point, username is valid. Ask for password.
-                Console.Write("Enter password: ");
-                string password = Console.ReadLine();
+                string password = promptService.PromptForInput("Enter password:");
 
                 if (volunteer.Password == Volunteer.HashPassword(password))
                 {
                     ShowLoggedInMenu(volunteer);
-                    break;
+                    return false; // ✅ Login successful, continue app loop
                 }
                 else
                 {
                     AnsiConsole.MarkupLine("[red]Error. Invalid password.[/]");
-                    Console.Write("Forgot password? (y/n): ");
-                    var resetChoice = Console.ReadLine();
+                    var resetChoice = promptService.PromptForInput("Forgot password? (y/n):").Trim().ToLower();
 
-                    if (resetChoice?.Trim().ToLower() == "y")
+                    if (resetChoice == "y")
                     {
                         Console.Clear();
                         AnsiConsole.MarkupLine("[green]No worries. Let's set a new password.[/]");
                         ResetPassword(promptService);
-                        break; // return to main menu after reset
+                        return false; // ✅ Return to main menu after reset
                     }
                     else
                     {
                         AnsiConsole.MarkupLine("[gray]Okay. Try again or type 'exit' next time to cancel.[/]");
                         Thread.Sleep(1000);
                     }
-                }    
+                }
             }
         }
     }

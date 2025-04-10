@@ -1,31 +1,21 @@
-// ActivityEditor.cs
 namespace VolunteerTracking;
 
 using System;
-using Spectre.Console;
 using VolunteerTracking.Models;
 
 public static class ActivityEditor
 {
-    public static void Edit(ref Activity a)
+    public static void Edit(ref Activity a, IPromptService prompt)
     {
         Console.Clear();
-        AnsiConsole.MarkupLine("[bold yellow]=== Edit Activity ===[/]");
+        Console.WriteLine("=== Edit Activity ===");
 
-        var field = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Which field would you like to edit?")
-                .PageSize(10)
-                .AddChoices(new[]
-                {
-                    "Date", "Start Time", "End Time",
-                    "Organization", "Location",
-                    "Activity Type", "Note", "Cancel Edit"
-                }));
+        string field = prompt.PromptForInput("Which field would you like to edit?\n(Date, Start Time, End Time, Organization, Location, Activity Type, Note, Cancel):")
+            .Trim();
 
-        if (field == "Cancel Edit")
+        if (field.Equals("Cancel", StringComparison.OrdinalIgnoreCase))
         {
-            AnsiConsole.MarkupLine("[gray]Edit canceled.[/]");
+            Console.WriteLine("Edit canceled.");
             return;
         }
 
@@ -46,30 +36,35 @@ public static class ActivityEditor
                     break;
 
                 case "Organization":
-                    a.Organization = Utils.GetInputWithExit("Enter new organization: ");
+                    a.Organization = prompt.PromptForInput("Enter new organization: ");
                     break;
 
                 case "Location":
-                    a.Location = Utils.GetInputWithExit("Enter new location: ");
+                    a.Location = prompt.PromptForInput("Enter new location: ");
                     break;
 
                 case "Activity Type":
-                    a.Type = Utils.GetInputWithExit("Enter new activity type: ");
+                    a.Type = prompt.PromptForInput("Enter new activity type: ");
                     break;
 
                 case "Note":
-                    a.Note = Utils.GetInputWithExit("Enter new note (or leave blank): ");
+                    a.Note = prompt.PromptForInput("Enter new note (or leave blank): ");
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid field name.");
                     break;
             }
 
-            AnsiConsole.MarkupLine("[green]Update successful![/]");
+            Console.WriteLine("Update successful!");
         }
         catch (OperationCanceledException)
         {
-            AnsiConsole.MarkupLine("[gray]Edit canceled by user.[/]");
+            Console.WriteLine("Edit canceled by user.");
         }
-
-        AnsiConsole.MarkupLine("\n[gray](Press Enter to return to the menu)[/]");
-        Console.ReadLine();
+        prompt.WaitForUserAcknowledgement("[gray](Press Enter to return to the menu)[/]");
     }
 }
+
+
+

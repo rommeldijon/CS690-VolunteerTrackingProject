@@ -8,5 +8,6 @@ public interface IPromptService
     string AskNewPassword();
     string AskPasswordConfirmation();
     string PromptForInput(string message);
+    void WaitForUserAcknowledgement(string message);
 }
 

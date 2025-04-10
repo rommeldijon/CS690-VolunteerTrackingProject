@@ -101,7 +101,7 @@ public partial class Program
             switch (action)
             {
                 case "Edit this Activity":
-                    ActivityEditor.Edit(ref selectedActivity);
+                    ActivityEditor.Edit(ref selectedActivity, new SpectrePromptService());
                     allLines[originalIndex] = selectedActivity.ToString();
                     File.WriteAllLines("activities.txt", allLines);
                     AnsiConsole.MarkupLine("[green]Activity updated.[/]");
