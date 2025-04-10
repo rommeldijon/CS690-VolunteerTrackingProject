@@ -14,7 +14,7 @@ public partial class Program
         if (userType == "exit")
         {
             AnsiConsole.MarkupLine("[gray]Goodbye! Exiting the system...[/]");
-            return;
+            Environment.Exit(0);
         }
 
         if (userType == "new")
