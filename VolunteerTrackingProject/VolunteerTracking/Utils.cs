@@ -118,5 +118,6 @@ public static class Utils
 
         Console.WriteLine();
         return options[selectedIndex];
+
     }
 }

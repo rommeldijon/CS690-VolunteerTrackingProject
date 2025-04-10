@@ -10,3 +10,5 @@ Rommel Dijon,Cerritos Library,456 Bonita Drive,456 Bonita Drive,04/05/2025,9:00 
 Rommel Dijon,Help Ur Neighboor,123 Blue Lane,123 Blue Lane,04/03/2025,10:00 AM,12:00 PM,Help Clean Yard of Seniors,
 Rommel Dijon,LL Cool J,900 L Drive,900 L Drive,04/15/2025,11:00 AM,2:00 PM,Collect Donations,
 Rommel Dijon,ADD,123 Math Ave.,123 Math Ave.,04/29/2025,1:00 PM,3:00 PM,,Teach Math to kids
+Rommel Dijon,ADD,123 Math Ave.,123 Math Ave.,05/02/2025,10:00 AM,12:00 PM,Teach math to kids,
+Rommel Dijon,ADD ,123 Math Ave,123 Math Ave,04/29/2025,2:00 PM,4:00 PM,Teach math to kids,

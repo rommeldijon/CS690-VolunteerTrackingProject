@@ -42,45 +42,9 @@ public partial class Program
             Console.WriteLine("\n Please enter time in 12-hour format (e.g. 9:00, 10:30).");
             Console.WriteLine("   You can also enter shortcuts like '9', '930', or '1130', and it will auto-correct.\n");
 
-            string startTime;
-            while (true)
-            {
-                string timeInput = Utils.GetInputWithExit("Start Time (e.g. 9, 930, or 10:00): ");
-                timeInput = Utils.NormalizeTime(timeInput);
-
-                string ampm = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("Choose [yellow]AM or PM[/]")
-                        .AddChoices("AM", "PM"));
-
-                if (DateTime.TryParseExact($"{timeInput} {ampm}", new[] { "h:mm tt", "hh:mm tt" }, null, System.Globalization.DateTimeStyles.None, out _))
-                {
-                    startTime = $"{timeInput} {ampm}";
-                    break;
-                }
-
-                Console.WriteLine("Invalid time format. Please enter a time like 9:00, 10:30, or 1130.");
-            }
-
-            string endTime;
-            while (true)
-            {
-                string timeInput = Utils.GetInputWithExit("End Time (e.g. 1, 130, or 1:30): ");
-                timeInput = Utils.NormalizeTime(timeInput);
-
-                string ampm = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("Choose [yellow]AM or PM[/]")
-                        .AddChoices("AM", "PM"));
-
-                if (DateTime.TryParseExact($"{timeInput} {ampm}", new[] { "h:mm tt", "hh:mm tt" }, null, System.Globalization.DateTimeStyles.None, out _))
-                {
-                    endTime = $"{timeInput} {ampm}";
-                    break;
-                }
-
-                Console.WriteLine(" Invalid time format. Please enter a time like 1:00, 2:30, or 1130.");
-            }
+            string startTime = PromptForTimeWithAmPm("Start");
+            
+            string endTime = PromptForTimeWithAmPm("End");
 
             string type = Utils.GetInputWithExit("Enter the Activity Type: ");
             string note = Utils.GetInputWithExit("Optional: Add a note about this activity: ");
@@ -117,7 +81,7 @@ public partial class Program
                     bool overlap = newStart < existingEnd && newEnd > existingStart;
                     if (overlap)
                     {
-                        Console.WriteLine("\n⚠ WARNING: This activity conflicts with another one:");
+                        Console.WriteLine("\n WARNING: This activity conflicts with another one:");
                         Console.WriteLine($"- Existing: {existing.StartTime}–{existing.EndTime} at {existing.Organization}");
                         Console.Write("Do you still want to save this activity? (y/n): ");
                         string proceed = Console.ReadLine()?.ToLower();
