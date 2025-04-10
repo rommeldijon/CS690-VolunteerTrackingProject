@@ -120,4 +120,10 @@ public static class Utils
         return options[selectedIndex];
 
     }
+    public static bool IsStartBeforeEnd(string startTime, string endTime)
+    {
+        return DateTime.TryParse(startTime, out DateTime start) &&
+            DateTime.TryParse(endTime, out DateTime end) &&
+            start < end;
+    }
 }

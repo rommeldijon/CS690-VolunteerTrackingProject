@@ -12,3 +12,5 @@ Rommel Dijon,LL Cool J,900 L Drive,900 L Drive,04/15/2025,11:00 AM,2:00 PM,Colle
 Rommel Dijon,ADD,123 Math Ave.,123 Math Ave.,04/29/2025,1:00 PM,3:00 PM,,Teach Math to kids
 Rommel Dijon,ADD,123 Math Ave.,123 Math Ave.,05/02/2025,10:00 AM,12:00 PM,Teach math to kids,
 Rommel Dijon,ADD ,123 Math Ave,123 Math Ave,04/29/2025,2:00 PM,4:00 PM,Teach math to kids,
+Rommel Dijon,Arbor Club,333 Elm St.,Liberty Park,05/02/2025,2:00 PM,4:00 PM,Tree Planting,Bring your own gloves
+Rommel Dijon,ADD,123 Math Lane,123 Math Lane,05/03/2025,10:00 AM,8:00 AM,Teach kids math,

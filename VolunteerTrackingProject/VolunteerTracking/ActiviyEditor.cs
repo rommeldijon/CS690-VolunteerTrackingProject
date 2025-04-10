@@ -28,11 +28,27 @@ public static class ActivityEditor
                     break;
 
                 case "Start Time":
-                    a.StartTime = $"{Utils.GetValidatedTime("Enter new start time (e.g. 9 or 930): ")} {Utils.SelectAmOrPm()}";
-                    break;
-
                 case "End Time":
-                    a.EndTime = $"{Utils.GetValidatedTime("Enter new end time (e.g. 1 or 130): ")} {Utils.SelectAmOrPm()}";
+                    while (true)
+                    {
+                        string newStart = (field == "Start Time")
+                            ? $"{Utils.GetValidatedTime("Enter new start time (e.g. 9 or 930): ")} {Utils.SelectAmOrPm()}"
+                            : a.StartTime;
+
+                        string newEnd = (field == "End Time")
+                            ? $"{Utils.GetValidatedTime("Enter new end time (e.g. 1 or 130): ")} {Utils.SelectAmOrPm()}"
+                            : a.EndTime;
+
+                        if (!Utils.IsStartBeforeEnd(newStart, newEnd))
+                        {
+                            Console.WriteLine(" [red]Start time must be earlier than end time.[/]");
+                            continue;
+                        }
+
+                        if (field == "Start Time") a.StartTime = newStart;
+                        if (field == "End Time") a.EndTime = newEnd;
+                        break;
+                    }
                     break;
 
                 case "Organization":
