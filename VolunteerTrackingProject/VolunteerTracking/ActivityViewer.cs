@@ -107,7 +107,7 @@ public partial class Program
          
         if (hasConflict)
         {
-            AnsiConsole.MarkupLine("[red]⚠ Some activities have conflicting times. Please review those marked in red.[/]");
+            AnsiConsole.MarkupLine("[red] Some activities have conflicting times. Please review those marked in red.[/]");
         }
 
 

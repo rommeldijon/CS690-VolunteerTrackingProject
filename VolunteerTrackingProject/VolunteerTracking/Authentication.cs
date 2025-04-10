@@ -9,18 +9,24 @@ using VolunteerTracking.Models;
 
 public partial class Program
 {
-    public static Volunteer Authenticate(string username, string password)
+    public static Volunteer Authenticate(string username, string password, out bool userExists)
     {
-        if (!File.Exists(filePath))
-            return null;
+        userExists = false;
+
+        if (!File.Exists(filePath)) return null;
 
         var lines = File.ReadAllLines(filePath);
         foreach (var line in lines)
         {
             var v = Volunteer.FromCsv(line);
-            string hashed = Volunteer.HashPassword(password);
-            if (v.Username.ToLower() == username && v.Password == hashed)
-                return v;
+            if (v.Username.ToLower() == username)
+            {
+                userExists = true;
+
+                string hashed = Volunteer.HashPassword(password);
+                if (v.Password == hashed)
+                    return v;
+            }
         }
 
         return null;
@@ -28,61 +34,68 @@ public partial class Program
 
     public static void ResetPassword(IPromptService prompt)
     {
-        string username = prompt.AskUsername()?.ToLower();
-
         if (!File.Exists(filePath))
         {
-            Console.WriteLine("No users found.");
+            AnsiConsole.MarkupLine("[red] No users found.[/]");
             return;
         }
 
         var lines = File.ReadAllLines(filePath);
-        bool found = false;
 
-        for (int i = 0; i < lines.Length; i++)
+        while (true)
         {
-            var v = Volunteer.FromCsv(lines[i]);
-            if (v.Username.ToLower() == username)
+            string username = prompt.AskUsername()?.Trim().ToLower();
+
+            if (username == "exit")
             {
-                Console.WriteLine("User verified. Let's reset your password.");
-                string newPassword;
-
-                while (true)
-                {
-                    string pass1 = prompt.AskNewPassword();
-                    string pass2 = prompt.AskPasswordConfirmation();
-
-                    if (pass1 != pass2)
-                    {
-                        Console.WriteLine("Passwords do not match. Try again.");
-                        continue;
-                    }
-
-                    if (!Validator.IsPasswordValid(pass1))
-                    {
-                        Console.WriteLine("Password does not meet requirements. Try again.");
-                        continue;
-                    }
-
-                    newPassword = Volunteer.HashPassword(pass1);
-                    break;
-                }
-
-                v.Password = newPassword;
-                lines[i] = v.ToString();
-                found = true;
-                break;
+                AnsiConsole.MarkupLine("[gray](Returning to the main menu...)[/]");
+                Thread.Sleep(1000);
+                return;
             }
-        }
 
-        if (found)
-        {
-            File.WriteAllLines(filePath, lines);
-            Console.WriteLine("Password successfully reset.");
-        }
-        else
-        {
-            Console.WriteLine("User not found or information does not match.");
+            bool found = false;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var v = Volunteer.FromCsv(lines[i]);
+                if (v.Username.ToLower() == username)
+                {
+                    AnsiConsole.MarkupLine("[blue] User verified. Let's reset your password.[/]");
+                    string newPassword;
+
+                    while (true)
+                    {
+                        string pass1 = prompt.AskNewPassword();
+                        string pass2 = prompt.AskPasswordConfirmation();
+
+                        if (pass1 != pass2)
+                        {
+                            AnsiConsole.MarkupLine("[red] Passwords do not match. Try again.[/]");
+                            continue;
+                        }
+
+                        if (!Validator.IsPasswordValid(pass1))
+                        {
+                            AnsiConsole.MarkupLine("[red] Password does not meet requirements. Try again.[/]");
+                            continue;
+                        }
+
+                        newPassword = Volunteer.HashPassword(pass1);
+                        break;
+                    }
+
+                    v.Password = newPassword;
+                    lines[i] = v.ToString();
+                    File.WriteAllLines(filePath, lines);
+                    AnsiConsole.MarkupLine("[green] Your new password has been set successfully![/]");
+                    Thread.Sleep(1500);
+                    return;
+                }
+            }
+
+            // If no match was found
+            AnsiConsole.MarkupLine("[red] Username not found. Please try again or type 'exit' to cancel.[/]");
         }
     }
+
 }

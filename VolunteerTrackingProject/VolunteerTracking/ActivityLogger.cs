@@ -36,10 +36,10 @@ public partial class Program
                 if (DateTime.TryParseExact(date, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out _))
                     break;
 
-                Console.WriteLine("⚠ Invalid date format. Please enter as mm/dd/yyyy (e.g. 04/01/2025).");
+                Console.WriteLine(" Invalid date format. Please enter as mm/dd/yyyy (e.g. 04/01/2025).");
             }
 
-            Console.WriteLine("\n⚠ Please enter time in 12-hour format (e.g. 9:00, 10:30).");
+            Console.WriteLine("\n Please enter time in 12-hour format (e.g. 9:00, 10:30).");
             Console.WriteLine("   You can also enter shortcuts like '9', '930', or '1130', and it will auto-correct.\n");
 
             string startTime;
@@ -59,7 +59,7 @@ public partial class Program
                     break;
                 }
 
-                Console.WriteLine("⚠ Invalid time format. Please enter a time like 9:00, 10:30, or 1130.");
+                Console.WriteLine("Invalid time format. Please enter a time like 9:00, 10:30, or 1130.");
             }
 
             string endTime;
@@ -79,7 +79,7 @@ public partial class Program
                     break;
                 }
 
-                Console.WriteLine("⚠ Invalid time format. Please enter a time like 1:00, 2:30, or 1130.");
+                Console.WriteLine(" Invalid time format. Please enter a time like 1:00, 2:30, or 1130.");
             }
 
             string type = Utils.GetInputWithExit("Enter the Activity Type: ");
@@ -132,7 +132,7 @@ public partial class Program
             }
 
             File.AppendAllText("activities.txt", activity.ToString() + Environment.NewLine);
-            Console.WriteLine("\n✅ Activity logged successfully!");
+            Console.WriteLine("\n Activity logged successfully!");
         }
         catch (OperationCanceledException)
         {

@@ -7,7 +7,7 @@ public class SpectrePromptService : IPromptService
     public string AskUserType()
     {
         Console.Clear();
-        Console.WriteLine("\n === 📅 Welcome to the Volunteer Tracking System ===");
+        Console.WriteLine("\n === Welcome to the Volunteer Tracking System ===");
 
         return AnsiConsole.Prompt(
             new SelectionPrompt<string>()

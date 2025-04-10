@@ -10,7 +10,14 @@
 
         static void Main(string[] args)
         {
-             MainMenuHandler.Run(); // now externalized and testable
+            var promptService = new SpectrePromptService();
+
+            while (true)
+            {
+                HandleMainMenu(promptService);  // returns if "exit" or user cancels login
+                // Optional: wait briefly or clear screen
+                Thread.Sleep(500);
+            }
         }
     }
 }
