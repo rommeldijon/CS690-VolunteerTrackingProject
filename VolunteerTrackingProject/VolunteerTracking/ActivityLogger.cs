@@ -6,8 +6,6 @@ using System.IO;
 using System.Linq;
 using Spectre.Console;
 using VolunteerTracking.Models;
-using VolunteerTracking;
-
 
 public partial class Program
 {
@@ -16,6 +14,7 @@ public partial class Program
         Console.Clear();
         Console.WriteLine("=== Log a New Activity ===");
         Console.WriteLine("(Type 'exit' to cancel anytime)");
+
         try
         {
             string org = Utils.GetInputWithExit("Enter the Organization Name: ");
@@ -42,9 +41,18 @@ public partial class Program
             Console.WriteLine("\n Please enter time in 12-hour format (e.g. 9:00, 10:30).");
             Console.WriteLine("   You can also enter shortcuts like '9', '930', or '1130', and it will auto-correct.\n");
 
-            string startTime = PromptForTimeWithAmPm("Start");
-            
-            string endTime = PromptForTimeWithAmPm("End");
+            string startTime, endTime;
+
+            while (true)
+            {
+                startTime = PromptForTimeWithAmPm("Start");
+                endTime = PromptForTimeWithAmPm("End");
+
+                if (Utils.IsStartBeforeEnd(startTime, endTime))
+                    break;
+
+                Console.WriteLine("Start time must be earlier than end time. Please re-enter both times.");
+            }
 
             string type = Utils.GetInputWithExit("Enter the Activity Type: ");
             string note = Utils.GetInputWithExit("Optional: Add a note about this activity: ");
@@ -103,5 +111,5 @@ public partial class Program
             Console.WriteLine("\nLogging activity canceled. Returning to main menu.");
         }
     }
-
 }
+
