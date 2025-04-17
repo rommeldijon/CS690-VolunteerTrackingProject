@@ -14,6 +14,10 @@ namespace VolunteerTracking.Models
         public static Volunteer FromCsv(string line)
         {
             var parts = line.Split(',');
+
+            if (parts.Length < 3)
+                throw new FormatException("Invalid volunteer line: not enough fields.");
+
             return new Volunteer
             {
                 Username = parts[0],

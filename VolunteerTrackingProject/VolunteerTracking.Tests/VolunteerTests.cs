@@ -74,6 +74,13 @@ namespace VolunteerTracking.Tests
             // Assert
             Assert.NotEqual(hash1, hash2);
         }
+
+        [Fact]
+        public void FromCsv_ShouldThrowException_OnMalformedLine()
+        {
+            string invalidCsv = "jdoe,hashedpass"; // Missing FullName
+            Assert.Throws<FormatException>(() => Volunteer.FromCsv(invalidCsv));
+        }
     }
 }
 
