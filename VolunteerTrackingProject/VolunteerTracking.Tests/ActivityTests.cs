@@ -59,7 +59,7 @@ namespace VolunteerTracking.Tests
             string csv = "";
 
             // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => Activity.FromCsv(csv));
+            Assert.Throws<FormatException>(() => Activity.FromCsv(csv));        
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace VolunteerTracking.Tests
             string csv = "jdoe,Red Cross,123 Main St,456 Elm St,04/01/2025";
 
             // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => Activity.FromCsv(csv));
+            Assert.Throws<FormatException>(() => Activity.FromCsv(csv));
         }
 
         [Fact]

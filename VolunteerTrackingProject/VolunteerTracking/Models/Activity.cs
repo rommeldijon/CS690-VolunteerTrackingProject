@@ -20,6 +20,10 @@ namespace VolunteerTracking.Models
         public static Activity FromCsv(string line)
         {
             var parts = line.Split(',');
+
+            if (parts.Length < 8)
+                throw new FormatException("Invalid activity line: not enough fields.");
+
             return new Activity
             {
                 Username = parts[0],
