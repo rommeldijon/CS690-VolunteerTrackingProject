@@ -12,6 +12,7 @@ public partial class Program
 {
     public static void Register()
     {
+        Utils.ClearWithHeader("New Volunteer Registration");
         AnsiConsole.MarkupLine("[gray](Type 'exit', then press enter at anytime to cancel registration and return to main menu.)[/]\n");
 
         string validatedUsername;

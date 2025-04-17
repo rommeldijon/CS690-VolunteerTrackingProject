@@ -18,7 +18,7 @@
                 if (shouldExit)
                     Environment.Exit(0);
 
-                Thread.Sleep(500); // Optional: wait briefly before looping again
+                Thread.Sleep(500); 
 
             }
         }

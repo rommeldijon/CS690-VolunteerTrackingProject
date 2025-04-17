@@ -13,9 +13,7 @@ public partial class Program
 {
      static void ManageActivities(Volunteer volunteer)
         {
-            Console.Clear();
-            AnsiConsole.MarkupLine("[bold underline green]Edit or Cancel an Activity[/]");
-
+            Utils.ClearWithHeader("Edit or Cancel an Activity");
             if (!File.Exists("activities.txt"))
             {
                 AnsiConsole.MarkupLine("[red]No activities found.[/]");
@@ -92,7 +90,7 @@ public partial class Program
             int originalIndex = indexes[selectedIndex];
 
             // === Action Choice ===
-            Console.Clear();
+            Utils.ClearWithHeader("Manage Selected Activity");
             var action = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("[bold]What would you like to do with this activity?[/]")

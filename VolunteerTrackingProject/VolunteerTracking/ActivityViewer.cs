@@ -13,8 +13,7 @@ public partial class Program
 {
      static void ViewUpcomingActivities(Volunteer volunteer)
     {
-        Console.Clear();
-        AnsiConsole.MarkupLine("[bold yellow]=== Your Upcoming Activities ===[/]");
+        Utils.ClearWithHeader("[bold yellow]=== Your Upcoming Activities ===[/]");
 
         if (!File.Exists("activities.txt"))
         {
@@ -132,8 +131,7 @@ public partial class Program
         var selectedActivity = activities[selectedIndex];
         int fileIndex = indexes[selectedIndex];
 
-        Console.Clear();
-        AnsiConsole.MarkupLine("[bold cyan]Selected Activity Details:[/]");
+        Utils.ClearWithHeader("[bold cyan]Selected Activity Details:[/]");
         AnsiConsole.MarkupLine($"[bold]Date:[/] {selectedActivity.Date}");
         AnsiConsole.MarkupLine($"[bold]Time:[/] {selectedActivity.StartTime} - {selectedActivity.EndTime}");
         AnsiConsole.MarkupLine($"[bold]Organization:[/] {selectedActivity.Organization}");

@@ -42,6 +42,7 @@ public partial class Program
 
         var lines = File.ReadAllLines(filePath);
 
+        Utils.ClearWithHeader("Reset Password");
         while (true)
         {
             string username = prompt.AskUsername()?.Trim().ToLower();

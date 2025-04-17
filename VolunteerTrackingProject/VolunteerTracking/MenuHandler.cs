@@ -89,8 +89,7 @@ public partial class Program
 
                     if (resetChoice == "y")
                     {
-                        Console.Clear();
-                        AnsiConsole.MarkupLine("[green]No worries. Let's set a new password.[/]");
+                        Utils.ClearWithHeader("[green]No worries. Let's set a new password.[/]");
                         ResetPassword(promptService);
                         return false; //  Return to main menu after reset
                     }

@@ -126,4 +126,11 @@ public static class Utils
             DateTime.TryParse(endTime, out DateTime end) &&
             start < end;
     }
+
+    public static void ClearWithHeader(string title)
+    {
+        Console.Clear();
+        AnsiConsole.MarkupLine($"[bold yellow]{title}[/]");
+        Console.WriteLine();
+    }
 }
