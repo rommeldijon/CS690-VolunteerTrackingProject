@@ -19,11 +19,14 @@ public partial class Program
         {
             try
             {
+                // Show this before every prompt attempt
+                AnsiConsole.MarkupLine("[gray]Username must be at least 6 characters, letters/numbers/spaces only.[/]");
+
                 validatedUsername = Utils.GetInputWithExit("Enter desired username: ").ToLower();
 
                 if (validatedUsername.Length < 6 || !validatedUsername.All(c => char.IsLetterOrDigit(c) || c == ' '))
                 {
-                    AnsiConsole.MarkupLine("[red]Username must be at least 6 characters and contain only letters, numbers, or spaces.[/]");
+                    AnsiConsole.MarkupLine("[red]Invalid username. Try again.[/]");
                     continue;
                 }
 
@@ -37,7 +40,7 @@ public partial class Program
                     }
                 }
 
-                break;
+                break; // passed all checks
             }
             catch (OperationCanceledException)
             {
@@ -71,7 +74,8 @@ public partial class Program
         {
             try
             {
-                string pass1 = Utils.GetInputWithExit("Set a password (min 6 chars, 1 capital letter, 1 special character): ");
+                AnsiConsole.MarkupLine("[gray]Password must be at least 6 characters, include 1 capital letter and 1 special character (!@#$%^&*()).[/]");
+                string pass1 = Utils.GetInputWithExit("Set a password: ");
                 string pass2 = Utils.GetInputWithExit("Confirm password: ");
 
                 if (pass1 != pass2)
@@ -103,7 +107,8 @@ public partial class Program
             Password = password
         };
 
-        File.AppendAllText(filePath, newVolunteer.ToString() + Environment.NewLine);
-        AnsiConsole.MarkupLine("[green]Registration complete! You can now log in.[/]");
+        AnsiConsole.MarkupLine("\n[bold green] Registration complete! You can now log in.[/]");
+        AnsiConsole.MarkupLine("[gray](Press Enter to return to the main menu)[/]");
+        Console.ReadLine(); // gives user time to read before screen clears
     }
 }

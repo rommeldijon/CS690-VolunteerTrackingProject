@@ -65,6 +65,7 @@ public partial class Program
 
                     while (true)
                     {
+                        AnsiConsole.MarkupLine("[gray]Password must be at least 6 characters, include 1 capital letter and 1 special character (!@#$...).[/]");
                         string pass1 = prompt.AskNewPassword();
                         string pass2 = prompt.AskPasswordConfirmation();
 
