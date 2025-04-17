@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolunteerTracking.Tests", "VolunteerTracking.Tests\VolunteerTracking.Tests.csproj", "{F19D59B9-A9AA-4319-8682-B79E2910AE88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolunteerTracking", "VolunteerTracking\VolunteerTracking.csproj", "{CADC6687-CE54-437A-A9DB-5C506F96B071}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +14,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F19D59B9-A9AA-4319-8682-B79E2910AE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F19D59B9-A9AA-4319-8682-B79E2910AE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F19D59B9-A9AA-4319-8682-B79E2910AE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F19D59B9-A9AA-4319-8682-B79E2910AE88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADC6687-CE54-437A-A9DB-5C506F96B071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADC6687-CE54-437A-A9DB-5C506F96B071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADC6687-CE54-437A-A9DB-5C506F96B071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADC6687-CE54-437A-A9DB-5C506F96B071}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
